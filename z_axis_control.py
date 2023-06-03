@@ -1,7 +1,7 @@
 import serial
 import time
 
-class Z_axis_controll:
+class Z_axis_control:
 
     """
     send:
@@ -52,5 +52,5 @@ class Z_axis_controll:
         line_disp = line.strip().decode('UTF-8')
         return line_disp
  
-a = Z_axis_controll()
+a = Z_axis_control()
 a.main()
