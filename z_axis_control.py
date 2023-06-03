@@ -21,15 +21,16 @@ class Z_axis_control:
 
     """
 
-    def __init__(self):
+    def __init__(self, target):
         self.ser = serial.Serial('COM13', 115200)
+        self.target = target
 
 
     def main(self):
 
         while True:
             
-            send_data = input()
+            send_data = self.target
 
             # 40.0cmより上にはいかないようにする。
             num = int(send_data[1])*10+int(send_data[2])*1+int(send_data[3])*0.1
@@ -52,5 +53,5 @@ class Z_axis_control:
         line_disp = line.strip().decode('UTF-8')
         return line_disp
  
-a = Z_axis_control()
+a = Z_axis_control(target)
 a.main()
