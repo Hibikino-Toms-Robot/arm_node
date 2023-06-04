@@ -15,12 +15,12 @@ class calc_arm_control:
 
                 # 既知情報
                 # 初期位置におけるアームの先端の位置（絶対座標系）
-                self.Xinit = 40.0 
-                self.Yinit = 40.0 
-                self.Zinit = 40.0
+                self.Xinit = 40.0 # ここを変更する
+                self.Yinit = -40.0 # ここを変更する
+                self.Zinit = 79.0 # ここを変更する
                 # アームの制御量の限界
-                self.Xlim = 20.0
-                self.Ylim = 20.0
+                self.Xlim = 28.0 # ここを変更する
+                self.Ylim = 28.0 # ここを変更する
                 self.Zlim = 40.0
 
                 # 未知情報
@@ -30,7 +30,7 @@ class calc_arm_control:
                 self.Z = float(absolute[2])
 
                 self.mode = mode
-        
+
         def make_send_data(self, target, mode):
                 flag = True
                 while flag:
@@ -51,10 +51,10 @@ class calc_arm_control:
                 target_Z = round(self.Z - self.Zinit, 1)
 
                 # 下限 or 上限　突破しないようにする。あえてエラーにする
-                if(target_X < 0.0 or target_X > self.Xlim):
-                        target_X = 1/0
-                if(target_Y < 0.0 or target_Y > self.Ylim):
-                        target_Y = 1/0
+                # if(target_X < 0.0 or target_X > self.Xlim):
+                #         target_X = 1/0
+                # if(target_Y < 0.0 or target_Y > self.Ylim):
+                #         target_Y = 1/0
                 if(target_Z < 0.0 or target_Z > self.Zlim):
                         target_Z = 1/0
                 
@@ -71,9 +71,8 @@ class calc_arm_control:
 
 # デバック
 # トマトの位置（絶対座標系）
-absolute = [60.0, 45.0, 45.15111]
+absolute = [60.0, 45.0, 79.15111]
 # アームの制御量を決定
 a = calc_arm_control(absolute, 'T')
 target_X, target_Y, target_Z = a.main()
-
 print(target_X, target_Y, target_Z)
