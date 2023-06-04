@@ -32,6 +32,7 @@ class calc_arm_control:
                 self.mode = mode
 
         def make_send_data(self, target, mode):
+                
                 flag = True
                 while flag:
                         if len(target) < 3:
