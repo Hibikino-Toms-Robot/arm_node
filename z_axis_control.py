@@ -1,7 +1,7 @@
 import serial
 import time
 
-class Z_axis_control:
+class Z_Axis_Control:
 
         """
         send:
@@ -61,7 +61,7 @@ class Z_axis_control:
 # initialize
 pre = '000'
 init_Z = 'I010'
-ini = Z_axis_control(init_Z, pre)
+ini = Z_Axis_Control(init_Z, pre)
 ini.main()
 pre = init_Z[1:]
 
@@ -69,6 +69,6 @@ time.sleep(0.01)
 
 # target
 target_Z = 'T210'
-tar = Z_axis_control(target_Z, pre)
+tar = Z_Axis_Control(target_Z, pre)
 tar.main()
 pre = target_Z[1:]
