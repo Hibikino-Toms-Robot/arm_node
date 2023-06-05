@@ -1,4 +1,4 @@
-class calc_arm_control:
+class Calc_Arm_Control:
 
         '''
         input:
@@ -74,6 +74,6 @@ class calc_arm_control:
 # トマトの位置（絶対座標系）
 absolute = [60.0, 45.0, 79.15111]
 # アームの制御量を決定
-a = calc_arm_control(absolute, 'T')
+a = Calc_Arm_Control(absolute, 'T')
 target_X, target_Y, target_Z = a.main()
 print(target_X, target_Y, target_Z)
