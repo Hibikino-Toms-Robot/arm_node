@@ -51,6 +51,8 @@ class Z_Axis_Control:
             print(receive_data)
 
             self.ser.close()
+       
+            return 0
 
         def serial_data(self):
             line = self.ser.readline()
