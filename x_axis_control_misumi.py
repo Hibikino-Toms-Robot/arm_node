@@ -21,6 +21,7 @@ class X_Axis_Control:
     def __init__(self, Flag, Target):
         self.ser = serial.Serial("COM9", baudrate=38400, bytesize=8, parity=serial.PARITY_ODD, stopbits=1, xonxoff=False)
         self.Flag = Flag
+        # x軸は最も伸びきった状態（20000mm）のときが初期位置である
         if self.Flag == 'T':
             self.Target = 20000 - Target #20000はアームの可動域
 
@@ -28,25 +29,28 @@ class X_Axis_Control:
     def Servo_On(self):
         self.ser.write(b'@SRVO1,') # サーボON指令
         On_flag = True
+        # 終了コマンドがでるまでwhileで回す
         while On_flag:
             self.ser.write(b'@?OPT1,') # オプション情報（状態）の読み出し
             receive = self.ser.readline()
-            if receive == b'OK.1\r\n':
-                time.sleep(0.1)
+            if receive == b'OK.1\r\n': # 終了時コマンド
+                time.sleep(0.1)  # 0.1秒停止
                 break
 
     def Servo_Off(self):
         self.ser.write(b'@SRVO0,') # サーボON指令
-        time.sleep(0.1)
+        time.sleep(0.1) # 0.1秒停止
 
     def Org_Arm(self):
         self.ser.write(b'@ORG,')
         org_flag = True
+        # 終了コマンドがでるまでwhileで回す
         while org_flag:
             self.ser.write(b'@?OPT1,')
             receive = self.ser.readline()
+            # 終了コマンドは2584, 2508, 2568である。
             if receive == b'OPT1.1=2584\r\n' or receive == b'OPT1.1=2508\r\n' or receive == b'OPT1.1=2568\r\n':
-                time.sleep(0.1)
+                time.sleep(0.1) # 0.1秒停止
                 break
 
     def Target_Arm(self, Speed, Target_pos):
@@ -57,8 +61,9 @@ class X_Axis_Control:
         while target_flag:
             self.ser.write(b'@?OPT1,')
             receive = self.ser.readline()
+            # 終了コマンドは2570, 2346である。
             if receive == b'OPT1.1=2570\r\n' or receive == b'OPT1.1=2346\r\n':
-                time.sleep(0.1)
+                time.sleep(0.1) # 0.1秒停止
                 break
     
     def main(self):
