@@ -46,7 +46,7 @@ class X_Axis_Control:
         org_flag = True
         # 終了コマンドがでるまでwhileで回す
         while org_flag:
-            self.ser.write(b'@?OPT1,')
+            self.ser.write(b'@?OPT1,')　# オプション情報（状態）の読み出し
             receive = self.ser.readline()
             # 終了コマンドは2584, 2508, 2568である。
             if receive == b'OPT1.1=2584\r\n' or receive == b'OPT1.1=2508\r\n' or receive == b'OPT1.1=2568\r\n':
@@ -59,7 +59,7 @@ class X_Axis_Control:
         self.ser.write(('@START1#P'+str(Target_pos)+',').encode(encoding='utf-8')) #目標位置へ移動指令
         target_flag = True
         while target_flag:
-            self.ser.write(b'@?OPT1,')
+            self.ser.write(b'@?OPT1,')　# オプション情報（状態）の読み出し
             receive = self.ser.readline()
             # 終了コマンドは2570, 2346である。
             if receive == b'OPT1.1=2570\r\n' or receive == b'OPT1.1=2346\r\n':
