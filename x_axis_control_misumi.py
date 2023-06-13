@@ -20,7 +20,7 @@ class X_Axis_Control:
     def __init__(self, Flag, Target):
         self.ser = serial.Serial("COM9", baudrate=38400, bytesize=8, parity=serial.PARITY_ODD, stopbits=1, xonxoff=False)
         self.Flag = Flag
-        # x軸は最も伸びきった状態（20000mm）のときが初期位置である
+        # x軸は最も伸びきった状態（200.00mm）のときが初期位置である
         if self.Flag == 'T':
             self.Target = 20000 - Target #20000はアームの可動域
 
