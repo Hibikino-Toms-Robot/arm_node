@@ -33,7 +33,7 @@ class Y_Axis_Control:
                 break
 
     def Servo_Off(self):
-        self.ser.write(b'@SRVO0,') # サーボON指令
+        self.ser.write(b'@SRVO0,') # サーボOFF指令
         time.sleep(0.1)
 
     def Org_Arm(self):
