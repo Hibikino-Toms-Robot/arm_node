@@ -22,7 +22,7 @@ class X_Axis_Control:
         self.Flag = Flag
         # x軸は最も伸びきった状態（200.00mm）のときが初期位置である
         if self.Flag == 'T':
-            self.Target = 20000 - Target #20000はアームの可動域
+            self.Target = 20000 - Target 
 
 
     def Servo_On(self):
