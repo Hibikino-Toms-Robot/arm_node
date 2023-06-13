@@ -1,7 +1,7 @@
 import serial
 import time
 
-# x_axis_armは移動位置＝20-動かしたい位置だけ動かせばいい、1cm動かしたいときは、20-1=19
+# x_axis_armは移動位置＝20-動かしたい位置だけ動かせばいい、1cm動かしたいときは、20-1=190.00[mm]
 # https://jp.misumi-ec.com/maker/misumi/mech/special/actuator_portal/rs/download/pdf/C1C21C22_JP_V201.pdf
 # p230より
 
