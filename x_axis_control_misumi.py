@@ -38,11 +38,11 @@ class X_Axis_Control:
                 break
 
     def Servo_Off(self):
-        self.ser.write(b'@SRVO0,') # サーボON指令
+        self.ser.write(b'@SRVO0,') # サーボOFF指令
         time.sleep(0.1) # 0.1秒停止
 
     def Org_Arm(self):
-        self.ser.write(b'@ORG,')
+        self.ser.write(b'@ORG,') # 原点回帰指令
         org_flag = True
         # 終了コマンドがでるまでwhileで回す
         while org_flag:
@@ -56,7 +56,7 @@ class X_Axis_Control:
     def Target_Arm(self, Speed, Target_pos):
         self.ser.write(('@S1='+str(Speed)+',').encode(encoding='utf-8')) # Speedの設定
         time.sleep(0.1)
-        self.ser.write(('@START1#P'+str(Target_pos)+',').encode(encoding='utf-8')) #初期位置へ移動指令
+        self.ser.write(('@START1#P'+str(Target_pos)+',').encode(encoding='utf-8')) #目標位置へ移動指令
         target_flag = True
         while target_flag:
             self.ser.write(b'@?OPT1,')
@@ -72,6 +72,7 @@ class X_Axis_Control:
             self.Servo_On()
             self.Org_Arm()
             self.Target_Arm(100, 20000) #初期化後は中心位置
+        # ターゲットモード
         elif self.Flag == 'T':
             self.Target_Arm(100, self.Target)
 
