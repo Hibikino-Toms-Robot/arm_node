@@ -10,7 +10,6 @@ class X_Axis_Control:
     input:
         Flag: 'I'→Initialize_mode 'T'→Target_mode
         Target: x
-
     (example1) Flag = 'I' 初期化モード
     (example2) Flag = 'T' Target = 20000 ターゲットモード　目標位置を20.000[cm]に設定（Z軸と合わせるために少数第一位で四捨五入してもいいかも？）
 
