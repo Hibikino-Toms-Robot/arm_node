@@ -37,7 +37,7 @@ class Y_Axis_Control:
         time.sleep(0.1)
 
     def Org_Arm(self):
-        self.ser.write(b'@ORG,')
+        self.ser.write(b'@ORG,') # 原点回帰指令
         org_flag = True
         while org_flag:
             self.ser.write(b'@?OPT1,')
@@ -49,7 +49,7 @@ class Y_Axis_Control:
     def Target_Arm(self, Speed, Target_pos):
         self.ser.write(('@S1='+str(Speed)+',').encode(encoding='utf-8')) # Speedの設定
         time.sleep(0.1)
-        self.ser.write(('@START1#P'+str(Target_pos)+',').encode(encoding='utf-8')) #初期位置へ移動指令
+        self.ser.write(('@START1#P'+str(Target_pos)+',').encode(encoding='utf-8')) #目標位置へ移動指令
         target_flag = True
         while target_flag:
             self.ser.write(b'@?OPT1,')
@@ -64,6 +64,7 @@ class Y_Axis_Control:
             self.Servo_On()
             self.Org_Arm()
             self.Target_Arm(100, 10000) #初期化後は中心位置
+        # ターゲットモード
         elif self.Flag == 'T':
             self.Target_Arm(100, self.Target)
 
