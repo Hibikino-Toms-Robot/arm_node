@@ -70,7 +70,7 @@ class X_Axis_Control:
         if self.Flag == 'I':
             self.Servo_On()
             self.Org_Arm()
-            self.Target_Arm(100, 20000) #初期化後は中心位置
+            self.Target_Arm(100, 0) #初期化後は初期位置
         # ターゲットモード
         elif self.Flag == 'T':
             self.Target_Arm(100, self.Target)
