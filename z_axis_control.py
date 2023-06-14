@@ -4,7 +4,7 @@ import time
 class Z_Axis_Control:
 
         """
-        send:
+        input:
                 send_data 
                     -send_data[0]: 'I'→Initialize_mode 'T'→Target_mode
                     -send_data[1]: アーム移動位置の10の位
@@ -18,7 +18,7 @@ class Z_Axis_Control:
                 (example1) send_data = 'T105090,' 目標位置を10.5cm、前回の位置は9.0cm
                 (example1) send_data = 'T200010,' 目標位置を20.0cm、前回の位置は1.0cm
 
-        receive:
+        output:
                 receive_data
                     -finish flag
 
@@ -68,7 +68,6 @@ z_control = Z_Axis_Control()
 pre = '000'
 init_Z = 'I010'
 ini = z_control.move_target(init_Z, pre)
-
 
 # target
 pre = init_Z[1:]
