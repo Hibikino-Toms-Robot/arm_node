@@ -27,10 +27,14 @@ class Z_Axis_Control:
 
         def __init__(self):
             self.ser = serial.Serial('COM13', 115200)
-        
+            init_Z = 'I110'
+            self.move_init(init_Z)
+            self.current_position = init_Z[1:]
+
         def move_init(self, target):
             time.sleep(1) # 1秒停止する。1秒でないとうまく動かなかった
             send_data = target + '000'
+
             time.sleep(1)
             # print(send_data)
             send_data = self.check_data(send_data)
@@ -41,9 +45,10 @@ class Z_Axis_Control:
             time.sleep(0.1)
             return 0
 
-        def move_target(self, target, pre_target):
+        def move_target(self, target):
             time.sleep(1) # 1秒停止する。1秒でないとうまく動かなかった
-            send_data = target + pre_target
+            send_data = target + self.current_position
+            self.current_position = target[1:]
             time.sleep(1)
             # print(send_data)
             send_data = self.check_data(send_data)
@@ -53,6 +58,7 @@ class Z_Axis_Control:
             # print(receive_data)
             time.sleep(0.1)
             return 0
+
 
         def check_data(self, send_data):
             # 40.0cmより上にはいかないようにする。
@@ -72,19 +78,13 @@ class Z_Axis_Control:
             return line_disp
  
 
-'''デバック'''
-z_control = Z_Axis_Control()
-
-# initialization
-init_Z = 'I110'
-ini = z_control.move_init(init_Z)
-
-# target
-pre = init_Z[1:]
-target_Z = 'T110'
-tar = z_control.move_target(target_Z, pre)
-
-# target
-pre = target_Z[1:]
-target_Z = 'T200'
-tar = z_control.move_target(target_Z, pre)
+def main():
+    '''デバック'''
+    # z_control = Z_Axis_Control()
+    # target_Z = 'T110'
+    # tar = z_control.move_target(target_Z)
+    # target_Z = 'T200'
+    # tar = z_control.move_target(target_Z)
+    pass
+if __name__ == '__main__':
+    main()

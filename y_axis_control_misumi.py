@@ -4,16 +4,31 @@ import time
 # https://jp.misumi-ec.com/maker/misumi/mech/special/actuator_portal/rs/download/pdf/C1C21C22_JP_V201.pdf
 # p230より
 
-class Y_Axis_Control:
+
+"""
+servo_on : サーボモータの起動
+
+
+"""
+
+class Y_Axis_Control():
     """
     input:
-        Target Location
+        Target Location (10*(-3)mm)
+
     output:
         finish flag
     """
     def __init__(self):
         self.ser = serial.Serial("COM8", baudrate=38400, bytesize=8, parity=serial.PARITY_ODD, stopbits=1, xonxoff=False)
-
+        self.move_init()
+    
+       
+    def move_init(self):
+        self.servo_on()
+        self.org_arm()
+        self.move_target(10000)
+    
     def servo_on(self):
         self.ser.write(b'@SRVO1,') # サーボON指令
         while True:
@@ -36,12 +51,7 @@ class Y_Axis_Control:
             if receive == b'OPT1.1=2584\r\n' or receive == b'OPT1.1=2508\r\n' or receive == b'OPT1.1=2568\r\n':
                 time.sleep(0.1) # 0.1秒停止
                 break
-    
-    def move_init(self):
-        self.servo_on()
-        self.org_arm()
-        self.move_target(10000)
-        return 0
+
 
     def move_target(self, target):
         self.ser.write(('@S1=100,').encode(encoding='utf-8')) # Speedの設定
@@ -54,22 +64,22 @@ class Y_Axis_Control:
             if receive == b'OPT1.1=2570\r\n' or receive == b'OPT1.1=2346\r\n':
                 time.sleep(0.1) # 0.1秒停止
                 break
-        # time.sleep(1)
-
-        return 0
     
-'''デバック'''
-y_control = Y_Axis_Control()
-# 初期位置へ移動
-ini = y_control.move_init()
-# 目標位置へ移動
-tag1 = y_control.move_target(20000)
-time.sleep(2)
-tag2 = y_control.move_target(10000)
-time.sleep(2)
-tag3 = y_control.move_target(00000)
-time.sleep(2)
-tag4 = y_control.move_target(20000)
-time.sleep(2)
-tag5 = y_control.move_target(00000)
-time.sleep(2)
+
+def main():
+    # '''デバック'''
+    # y_control = Y_Axis_Control()
+    # # 目標位置へ移動
+    # tag1 = y_control.move_target(20000)
+    # time.sleep(2)
+    # tag2 = y_control.move_target(10000)
+    # time.sleep(2)
+    # tag3 = y_control.move_target(00000)
+    # time.sleep(2)
+    # tag4 = y_control.move_target(20000)
+    # time.sleep(2)
+    # tag5 = y_control.move_target(00000)
+    # time.sleep(2)
+    pass
+if __name__ == '__main__':
+    main()

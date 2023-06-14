@@ -8,12 +8,21 @@ import time
 class X_Axis_Control:
     """
     input:
-        Target Location
+        Target Location (10*(-3)mm)
+
     output:
         finish flag
     """
     def __init__(self):
         self.ser = serial.Serial("COM9", baudrate=38400, bytesize=8, parity=serial.PARITY_ODD, stopbits=1, xonxoff=False)
+        self.move_init()
+       
+    def move_init(self):
+        self.servo_on()
+        self.org_arm()
+        self.move_target(00000)
+
+    
 
     def servo_on(self):
         self.ser.write(b'@SRVO1,') # サーボON指令
@@ -37,12 +46,7 @@ class X_Axis_Control:
             if receive == b'OPT1.1=2584\r\n' or receive == b'OPT1.1=2508\r\n' or receive == b'OPT1.1=2568\r\n':
                 time.sleep(0.1) # 0.1秒停止
                 break
-    
-    def move_init(self):
-        self.servo_on()
-        self.org_arm()
-        self.move_target(00000)
-        return 0
+
 
     def move_target(self, target):
         target = 20000 - target
@@ -59,16 +63,22 @@ class X_Axis_Control:
         # time.sleep(1)
         return 0
     
-'''デバック'''
-x_control = X_Axis_Control()
-# 初期位置へ移動
-ini = x_control.move_init()
-# 目標位置へ移動
-tag1 = x_control.move_target(20000)
-time.sleep(2)
-tag2 = x_control.move_target(10000)
-time.sleep(2)
-tag4 = x_control.move_target(20000)
-time.sleep(2)
-tag5 = x_control.move_target(00000)
-time.sleep(2)
+
+
+def main():
+    # '''デバック'''
+    # x_control = X_Axis_Control()
+    # # 目標位置へ移動
+    # tag1 = x_control.move_target(20000)
+    # time.sleep(2)
+    # tag2 = x_control.move_target(10000)
+    # time.sleep(2)
+    # tag3 = x_control.move_target(00000)
+    # time.sleep(2)
+    # tag4 = x_control.move_target(20000)
+    # time.sleep(2)
+    # tag5 = x_control.move_target(00000)
+    # time.sleep(2)
+    pass
+if __name__ == '__main__':
+    main()
