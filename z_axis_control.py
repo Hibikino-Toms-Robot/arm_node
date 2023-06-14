@@ -1,6 +1,7 @@
 import serial
 import time
 
+# 自分がアーム座標系からみて特定の位置に移動するためには、1つ前の位置（アーム座標系）と、これから動くアームの位置（アーム座標系）が必要
 class Z_Axis_Control:
 
         """
@@ -26,9 +27,21 @@ class Z_Axis_Control:
 
         def __init__(self):
             self.ser = serial.Serial('COM13', 115200)
+        
+        def move_init(self, target):
+            time.sleep(1) # 1秒停止する。1秒でないとうまく動かなかった
+            send_data = target + '000'
+            time.sleep(1)
+            # print(send_data)
+            send_data = self.check_data(send_data)
+            self.ser.write(send_data.encode(encoding='utf-8'))
+            time.sleep(1)
+            receive_data = self.serial_data()
+            # print(receive_data)
+            time.sleep(0.1)
+            return 0
 
         def move_target(self, target, pre_target):
-   
             time.sleep(1) # 1秒停止する。1秒でないとうまく動かなかった
             send_data = target + pre_target
             time.sleep(1)
@@ -39,7 +52,6 @@ class Z_Axis_Control:
             receive_data = self.serial_data()
             # print(receive_data)
             time.sleep(0.1)
-
             return 0
 
         def check_data(self, send_data):
@@ -64,9 +76,8 @@ class Z_Axis_Control:
 z_control = Z_Axis_Control()
 
 # initialization
-pre = '000'
-init_Z = 'I010'
-ini = z_control.move_target(init_Z, pre)
+init_Z = 'I110'
+ini = z_control.move_init(init_Z)
 
 # target
 pre = init_Z[1:]
