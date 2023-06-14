@@ -24,18 +24,26 @@ class Z_Axis_Control:
 
         """
 
-        def __init__(self, target, pre_target):
+        def __init__(self):
             self.ser = serial.Serial('COM13', 115200)
-            self.target = target
-            self.pre_target = pre_target
 
-        def main(self):
+        def move_target(self, target, pre_target):
    
             time.sleep(1) # 1秒停止する。1秒でないとうまく動かなかった
-            send_data = self.target + self.pre_target
+            send_data = target + pre_target
             time.sleep(1)
             print(send_data)
 
+            send_data = self.check_data(send_data)
+            self.ser.write(send_data.encode(encoding='utf-8'))
+            time.sleep(1)
+            receive_data = self.serial_data()
+            print(receive_data)
+            time.sleep(0.1)
+
+            return 0
+
+        def check_data(self, send_data):
             # 40.0cmより上にはいかないようにする。
             num = int(send_data[1])*10+int(send_data[2])*1+int(send_data[3])*0.1
             if num > 40.0:
@@ -44,33 +52,30 @@ class Z_Axis_Control:
             # もし語尾に','がなければ追加する 忘れ防止のため
             if send_data[-1] != ',':
                 send_data = send_data + ','
+            return send_data
 
-            self.ser.write(send_data.encode(encoding='utf-8'))
-            time.sleep(1)
-            receive_data = self.serial_data()
-            print(receive_data)
-
-            self.ser.close()
-       
-            return 0
 
         def serial_data(self):
             line = self.ser.readline()
             line_disp = line.strip().decode('UTF-8')
             return line_disp
  
-# デバック
-# initialize
+
+'''デバック'''
+z_control = Z_Axis_Control()
+
+# initialization
 pre = '000'
 init_Z = 'I010'
-ini = Z_Axis_Control(init_Z, pre)
-ini.main()
-pre = init_Z[1:]
+ini = z_control.move_target(init_Z, pre)
 
-time.sleep(0.01)
 
 # target
-target_Z = 'T210'
-tar = Z_Axis_Control(target_Z, pre)
-tar.main()
+pre = init_Z[1:]
+target_Z = 'T110'
+tar = z_control.move_target(target_Z, pre)
+
+# target
 pre = target_Z[1:]
+target_Z = 'T200'
+tar = z_control.move_target(target_Z, pre)
