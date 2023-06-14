@@ -32,13 +32,12 @@ class Z_Axis_Control:
             time.sleep(1) # 1秒停止する。1秒でないとうまく動かなかった
             send_data = target + pre_target
             time.sleep(1)
-            print(send_data)
-
+            # print(send_data)
             send_data = self.check_data(send_data)
             self.ser.write(send_data.encode(encoding='utf-8'))
             time.sleep(1)
             receive_data = self.serial_data()
-            print(receive_data)
+            # print(receive_data)
             time.sleep(0.1)
 
             return 0
