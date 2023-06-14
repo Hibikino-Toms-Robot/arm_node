@@ -9,6 +9,7 @@ class X_Axis_Control:
     """
     input:
         Target Location (10*(-3)mm)
+
     output:
         finish flag
     """
@@ -22,6 +23,7 @@ class X_Axis_Control:
         self.move_target(00000)
 
     
+
     def servo_on(self):
         self.ser.write(b'@SRVO1,') # サーボON指令
         while True:
@@ -44,7 +46,7 @@ class X_Axis_Control:
             if receive == b'OPT1.1=2584\r\n' or receive == b'OPT1.1=2508\r\n' or receive == b'OPT1.1=2568\r\n':
                 time.sleep(0.1) # 0.1秒停止
                 break
- 
+
 
     def move_target(self, target):
         target = 20000 - target
@@ -61,6 +63,7 @@ class X_Axis_Control:
         # time.sleep(1)
         return 0
     
+
 
 def main():
     # '''デバック'''

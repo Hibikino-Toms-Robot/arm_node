@@ -34,6 +34,7 @@ class Z_Axis_Control:
         def move_init(self, target):
             time.sleep(1) # 1秒停止する。1秒でないとうまく動かなかった
             send_data = target + '000'
+
             time.sleep(1)
             # print(send_data)
             send_data = self.check_data(send_data)
@@ -57,6 +58,7 @@ class Z_Axis_Control:
             # print(receive_data)
             time.sleep(0.1)
             return 0
+
 
         def check_data(self, send_data):
             # 40.0cmより上にはいかないようにする。

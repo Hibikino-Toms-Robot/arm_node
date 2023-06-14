@@ -15,6 +15,7 @@ class Y_Axis_Control():
     """
     input:
         Target Location (10*(-3)mm)
+
     output:
         finish flag
     """
@@ -50,7 +51,7 @@ class Y_Axis_Control():
             if receive == b'OPT1.1=2584\r\n' or receive == b'OPT1.1=2508\r\n' or receive == b'OPT1.1=2568\r\n':
                 time.sleep(0.1) # 0.1秒停止
                 break
- 
+
 
     def move_target(self, target):
         self.ser.write(('@S1=100,').encode(encoding='utf-8')) # Speedの設定
@@ -63,7 +64,6 @@ class Y_Axis_Control():
             if receive == b'OPT1.1=2570\r\n' or receive == b'OPT1.1=2346\r\n':
                 time.sleep(0.1) # 0.1秒停止
                 break
-        return 0
     
 
 def main():
